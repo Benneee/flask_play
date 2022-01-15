@@ -1,15 +1,12 @@
-{% extends "layout.html" %}
-{% block content %}
-    <h2>Posts For Your Perusal</h2>
-
-    {% for post in posts %}
-    <div class="card mb-3">
-        <div class="card-body">
-            <h4>  {{ post.title }} <small>By {{ post.author }}</small></h4>
-            <p> {{ post.content }} </p>
-            <small>Published {{ post.created_at }} </small>
-        </div>
-
-    </div>
-    {% endfor %}
-{% endblock content %}
+{% extends "layout.html" %} {% block content %} {% for post in posts %}
+<article class="card mb-3">
+  <div class="card-body">
+    <h4>
+      <a class="article-title mr-4" href="#">{{ post.title }} </a>
+      <small class="float-right"><a href="#">{{ post.author }}</a></small>
+    </h4>
+    <p class="article-content">{{ post.content }}</p>
+    <small class="text-muted">Published {{ post.created_at }} </small>
+  </div>
+</article>
+{% endfor %} {% endblock content %}
