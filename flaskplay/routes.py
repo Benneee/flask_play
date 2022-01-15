@@ -1,47 +1,23 @@
 import os # to get the image extension
 import secrets
 from PIL import Image
-from flask import render_template, url_for, flash, redirect, request
+from flask import render_template, url_for, flash, redirect, request, abort
 
 from flaskplay import app, db, bcrypt
-from flaskplay.forms import RegistrationForm, LoginForm, UpdateAccountForm
+from flaskplay.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
 from flaskplay.models import User, Post
 from flask_login import login_user, current_user, logout_user, login_required
 
-# Dummy data
-title = 'About'
-posts = [
-    {
-        'id': 1,
-        'author': 'Ben McGregor',
-        'title': 'Lorem 1',
-        'content': 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni similique earum expedita facilis    unde aspernatur rem alias praesentium nam exercitationem quis ex illum, dicta vero quia placeat labore, ad facere, et tenetur id laborum rerum quam. Adipisci possimus quisquam esse corrupti reiciendis?',
-        'created_at': 'January 12, 2021'
-    },
-    {
-        'id': 2,
-        'author': 'Ewan Roberts',
-        'title': 'Lorem 2',
-        'content': 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Earum unde enim ipsam cumque? Repellendus, perspiciatis veniam at doloribus, officiis aut explicabo porro voluptatum numquam non minus inventore? Adipisci aliquid voluptas, repellat mollitia incidunt vitae exercitationem aut numquam amet magnam enim ex tenetur, molestias labore unde? Ipsum, perferendis inventore. Quasi, dignissimos.',
-        'created_at': 'January 10, 2021'
-    },
-    {
-        'id': 3,
-        'author': 'Ben Marcus',
-        'title': 'Lorem 3',
-        'content': 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Magni similique earum expedita facilis    unde aspernatur rem alias praesentium nam exercitationem quis ex illum, dicta vero quia placeat labore, ad facere, et tenetur id laborum rerum quam. Adipisci possimus quisquam esse corrupti',
-        'created_at': 'January 8, 2021'
-    },
-]
 
 @app.route('/')
 @app.route('/home')
 def home():
+    posts = Post.query.all()
     return render_template('index.html', posts=posts)
 
 @app.route('/about')
 def about():
-    return render_template('about.html', title=title)
+    return render_template('about.html', title='About')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -120,3 +96,52 @@ def account():
         form.email.data = current_user.email
     image_file = url_for('static', filename='profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Profile', image_file=image_file, form=form)
+
+
+@app.route('/post/new', methods=['GET', 'POST'])
+@login_required # restricted route
+def new_post():
+    form = PostForm()
+    if form.validate_on_submit():
+        post = Post(title=form.title.data, content=form.content.data, author=current_user)
+        db.session.add(post)
+        db.session.commit()
+        flash('Your post has been created!', 'success')
+        return redirect(url_for('home'))
+    return render_template('create_post.html', title='New Post', legend='New Post', form=form)
+
+
+@app.route('/post/<int:post_id>')
+def post(post_id):
+    post = Post.query.get_or_404(post_id)
+    return render_template('post.html', title=post.title, post=post)
+
+
+@app.route('/post/<int:post_id>/update', methods=['GET', 'POST'])
+@login_required
+def update_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    form = PostForm()
+    if form.validate_on_submit():
+        post.title = form.title.data
+        post.content = form.content.data
+        db.session.commit()
+        flash('Your post has been updated', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    elif request.method == 'GET':
+        form.title.data = post.title
+        form.content.data = post.content
+    return render_template('create_post.html', title='Update Post', legend='Update Post', form=form)
+
+
+@app.route('/post/<int:post_id>/delete', methods=['POST'])
+def delete_post(post_id):
+    post = Post.query.get_or_404(post_id)
+    if post.author != current_user:
+        abort(403)
+    db.session.delete(post)
+    db.session.commit()
+    flash('Your post has been deleted', 'success')
+    return redirect(url_for('home'))
