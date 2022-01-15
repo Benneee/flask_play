@@ -1,3 +1,5 @@
 {
-    "editor.formatOnSave": true
+  "emmet.includeLanguages": { "jinja-html": "html" },
+"editor.defaultFormatter": "vscode.emmet",
+  "editor.formatOnSave": true
 }

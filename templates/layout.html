@@ -18,14 +18,14 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{{ url_for('static', filename='main.css')  }}"
+      href="{{ url_for('static', filename='main.css') }}"
     />
 
     <!-- Google Fonts link -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap"
       rel="stylesheet"
     />
 
@@ -75,7 +75,13 @@
     <main role="main">
       <div class="container">
         <div class="row">
-          <div class="col-md-8">{% block content %}{% endblock content %}</div>
+          <div class="col-md-8">
+            {% with messages = get_flashed_messages(with_categories = true) %}
+            {% if messages %} {% for category, message in messages %}
+            <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %} {% endif %} {% endwith %} {% block content %}{%
+            endblock content %}
+          </div>
           <div class="col-md-4">
             <div class="content-section">
               <h3>Helpful Links</h3>
@@ -111,5 +117,10 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script>
+      setTimeout(function() {
+        $('.alert').remove();
+      }, 5000);
+    </script>
   </body>
 </html>
