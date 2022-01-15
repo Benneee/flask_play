@@ -3,10 +3,13 @@
     <h2>Posts For Your Perusal</h2>
 
     {% for post in posts %}
-    <div>
-        <h4>  {{ post.title }} <small>By {{ post.author }}</small></h4>
-        <p> {{ post.content }} </p>
-        <small>Published {{ post.created_at }} </small>
+    <div class="card mb-3">
+        <div class="card-body">
+            <h4>  {{ post.title }} <small>By {{ post.author }}</small></h4>
+            <p> {{ post.content }} </p>
+            <small>Published {{ post.created_at }} </small>
+        </div>
+
     </div>
     {% endfor %}
 {% endblock content %}
