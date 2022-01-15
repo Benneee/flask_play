@@ -1,12 +1,42 @@
-{% extends "layout.html" %} {% block content %} {% for post in posts %}
-<article class="card mb-3">
-  <div class="card-body">
-    <h4>
-      <a class="article-title mr-4" href="#">{{ post.title }} </a>
-      <small class="float-right"><a href="#">{{ post.author }}</a></small>
-    </h4>
-    <p class="article-content">{{ post.content }}</p>
-    <small class="text-muted">Published {{ post.created_at }} </small>
-  </div>
-</article>
-{% endfor %} {% endblock content %}
+{% extends "layout.html" %} 
+{% block content %} 
+  {% if posts|length > 0 %}
+    {% for post in posts %}
+      <article class="card mb-3">
+        <div class="card-body">
+          <div class="card-header bg-transparent p-0">
+            <div class="row">
+              <div class="col-6 align-self-center">
+                <h4>
+                  <a class="article-title mr-2" href="{{ url_for('post', post_id=post.id) }} ">{{ post.title }} </a>
+                </h4>
+              </div>
+              <div class="col-6">
+
+                <div class="float-right">
+                  <div class= "article-img mr-2">
+                    <img src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" alt="" class="rounded  img-fluid">
+                  </div>
+                 
+                  <small><a href="#">{{ post.author.username }}</a></small>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+    
+          <p class="mt-2 article-content">{{ post.content }}</p>
+          <small class="text-muted">Published {{ post.date_posted.strftime("%d %b, %Y")  }} </small>
+        </div>
+      </article>
+    {% endfor %} 
+    {% else %}
+    <div class="card text-center">
+      <div class="card-body">
+        <h4>You currently have no posts</h4>
+        <h6>Click <a href="{{ url_for('new_post') }}">here</a> to create one!</h6>
+      </div>
+    </div>
+  {% endif %}
+{% endblock content %}
