@@ -16,7 +16,7 @@
                 <img src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" alt="" class="rounded  img-fluid">
               </div>
              
-              <small><a href="#">{{ post.author.username }}</a></small>
+              <small><a href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }}</a></small>
             </div>
           </div>
         </div>
