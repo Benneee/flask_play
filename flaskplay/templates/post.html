@@ -16,7 +16,7 @@
                 <img src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}" alt="" class="rounded  img-fluid">
               </div>
              
-              <small><a href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username }}</a></small>
+              <small><a href="{{ url_for('users.user_posts', username=post.author.username) }}">{{ post.author.username }}</a></small>
             </div>
           </div>
         </div>
@@ -30,7 +30,7 @@
           {% if post.author == current_user %}
           <div class="col-6">
               <div class="float-right">
-                <a href="{{ url_for('update_post', post_id=post.id) }}" class="btn btn-sm btn-secondary">Update</a>
+                <a href="{{ url_for('posts.update_post', post_id=post.id) }}" class="btn btn-sm btn-secondary">Update</a>
                 <button class="btn btn-sm btn-danger ml-3" data-toggle="modal" data-target="#deleteModal">Delete</button>
               </div>
           </div>
@@ -52,7 +52,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <form method="POST" action="{{ url_for('delete_post', post_id=post.id) }}">
+          <form method="POST" action="{{ url_for('posts.delete_post', post_id=post.id) }}">
             <input type="submit" class="btn btn-danger" value="Delete">
           </form>
         </div>
