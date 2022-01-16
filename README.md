@@ -1,16 +1,23 @@
 # Flask Play
-Simple blog to learn the basics of the Python microframework, Flask.
-A 15-videos-playlist-not-so-quick-overview of what I can do with Flask If I intend to build a web app
-and do with the amazing microframework
+A not-so-quick-overview of what I can do with the Python microframework, Flask, If I intend to build a web app
+
+## Libraries Used
+- Flask-Bcrypt for password management
+- Flask-Login for authentication and session management
+- Flask-Mail for email 
+- Flask-WTF for Forms
+- ItsDangerous for tokens
+- Pillow for images
+- Flask-SQLAlchemy for ORM
 
 ## BackStory
 This is a first foot-dipping into Flask. 
 
-Done Django bits in the past, but it looks to me like a better step to move from Flask to Django,
-So far, the resources I have gotten for this learning journey look to be amazing.
+So far, the resources I have gotten for this learning journey look to be great.
 I don't want to jinx the journey by saying I will be creating more stuff with Flask in the nearest future,
-but honestly, I really want to build more apps in the nearest future.
-Target is APIs and other stuff I can do on the back-end other than web applications
+but honestly, I want to build more apps sooner than later.
+
+The target is APIs and other stuff I can do on the back-end other than web applications
 
 Let's Go!!
 
@@ -23,7 +30,7 @@ Corey Schafer's Flask Tutorial Playlist: [best introduction tutorial ever](https
 
 Any other YouTube Resource I Find
 
-As I favour books and reading resources over videos when I have the time, and this time, I think I do, I will be using more of that than videos. I just couldn't resist this playlist.
+As I favor books and reading resources over videos when I have the time, and this time, I think I do, I will be using more of that than videos. 
 
 ## Credits For This
 Major Credits to Corey Schafer for the [best introduction tutorial ever](https://www.youtube.com/watch?v=MwZwr5Tvyxo&list=PL-osiE80TeTs4UjLw5MM6OjgkjFeUxCYH&index=1)
