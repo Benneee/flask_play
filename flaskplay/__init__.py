@@ -33,10 +33,12 @@ def create_app(config_class=Config):
     from flaskplay.users.routes import users
     from flaskplay.posts.routes import posts
     from flaskplay.main.routes import main
+    from flaskplay.errors.handlers import errors
 
     app.register_blueprint(users)
     app.register_blueprint(posts)
     app.register_blueprint(main)
+    app.register_blueprint(errors)
 
     return app
 
